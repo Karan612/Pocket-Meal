@@ -6,6 +6,7 @@ class SignUpForm extends Component {
         super();
 
         this.state = {
+            name: '',
             email: '',
             password: '',
             confirmPassword: '',
@@ -29,10 +30,28 @@ class SignUpForm extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-
-        console.log('The form was submitted with the following data:');
-        console.log(this.state);
-    }
+        const url = "http://localhost:4000/api/register";
+        fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(this.state),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(res => {
+          if (res.status === 200) {
+            this.props.history.push('/sign-in');
+            alert('User Register Succefully')
+          } else {
+            const error = new Error(res.error);
+            throw error;
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Error user not register');
+        });
+      }
 
     render() {
         return (
@@ -48,6 +67,10 @@ class SignUpForm extends Component {
                 <input type="text" id="name" className="FormField__Input" placeholder="Enter Your Full Name" name="name" value={this.state.name} onChange={this.handleChange} />
               </div>
               <div className="FormField">
+                <label className="FormField__Label" htmlFor="name">Email</label>
+                <input type="text" id="name" className="FormField__Input" placeholder="Enter Your email" name="email" value={this.state.email} onChange={this.handleChange} />
+              </div>
+              <div className="FormField">
                 <label className="FormField__Label" htmlFor="username">Username</label>
                 <input type="text" id="username" className="FormField__Input" placeholder="Enter Your Username" name="username" value={this.state.username} onChange={this.handleChange} />
               </div>
@@ -57,7 +80,7 @@ class SignUpForm extends Component {
               </div>
               <div className="FormField">
                 <label className="FormField__Label" htmlFor="password">Confirm Your Password</label>
-                <input type="password" id="confirmPassword" className="FormField__Input" placeholder="Confirm Your Password" name="confirmPassword" value={this.state.password} onChange={this.handleChange} />
+                <input type="password" id="confirmPassword" className="FormField__Input" placeholder="Confirm Your Password" name="confirmPassword" value={this.state.confirmPassword} onChange={this.handleChange} />
               </div>              
 
               <div className="FormField">
@@ -67,7 +90,8 @@ class SignUpForm extends Component {
               </div>
 
               <div className="FormField">
-                  <Link to = "/sign-in"><button className="FormField__Button grow mr4">Sign Up</button></Link><Link to="/sign-in" className="FormField__Link grow">I'm Already A Member</Link>
+                  <button className="FormField__Button grow mr4">Sign Up</button>
+                  <Link to="/sign-in" className="FormField__Link grow">I'm Already A Member</Link>
               </div>
             </form>
           </div>

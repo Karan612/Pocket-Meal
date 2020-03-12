@@ -6,6 +6,7 @@ import Home from './Home';
 import NeedHelp from './NeedHelp';
 import Volunteer from './Volunteer';
 import Progress from './Progress';
+import Request from './Request';
 
 const Router = () => { 
     return (
@@ -16,6 +17,7 @@ const Router = () => {
         <Route path = "/sign-up" exact component = {SignUpForm} />              
         <Route path = "/sign-in" exact component = {SignInForm} />
         <Route path = "/questions" exact component = {Progress} />
+        <Route path = "/request" exact component = {Request} />
     </Switch>
     );
 }
